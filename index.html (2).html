@@ -1,0 +1,1212 @@
+<!DOCTYPE html>
+<html lang="vi" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Văn Học 12 - Kết Nối Tri Thức (VK-01) | THPT Yên Lãng</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        bamboo: {
+                            50: '#f2f8f4',
+                            100: '#e1efe4',
+                            200: '#c5e0cd',
+                            300: '#9bc8a8',
+                            400: '#6ca97e',
+                            500: '#488c5d',
+                            600: '#367047',
+                            700: '#2b5839',
+                            800: '#24472f',
+                            900: '#1e3b28',
+                            950: '#0f2417',
+                        },
+                        sepia: {
+                            50: '#faf8f5',
+                            100: '#f4efe6',
+                            200: '#e6ded0',
+                            300: '#d5c7b3',
+                            500: '#9e8160',
+                            700: '#674d36',
+                            800: '#433023',
+                            900: '#2c1e14',
+                        },
+                        gold: {
+                            light: '#f3e5ab',
+                            DEFAULT: '#d4af37',
+                            hover: '#b89628',
+                            dark: '#8a6d1c',
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'Georgia', 'serif'],
+                        sans: ['"Be Vietnam Pro"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #faf8f5;
+            color: #2c1e14;
+            font-family: 'Be Vietnam Pro', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Pattern Tre Nứa mờ nhẹ */
+        .bamboo-bg-pattern {
+            background-image: radial-gradient(#367047 0.6px, transparent 0.6px), radial-gradient(#367047 0.6px, #faf8f5 0.6px);
+            background-size: 24px 24px;
+            background-position: 0 0, 12px 12px;
+            background-opacity: 0.04;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #f4efe6; }
+        ::-webkit-scrollbar-thumb { background: #367047; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #24472f; }
+
+        .tab-panel { display: none; opacity: 0; transition: opacity 0.3s ease-in-out; }
+        .tab-panel.active { display: block; opacity: 1; }
+
+        /* Animation cho thẻ tác phẩm khi chọn */
+        .work-card-item { 
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); 
+        }
+        .work-card-item:hover {
+            transform: translateY(-2px);
+        }
+        .work-card-item.active {
+            border-color: #367047;
+            background-color: #e1efe4;
+            box-shadow: 0 8px 20px -4px rgba(54, 112, 71, 0.25);
+            transform: translateX(8px) scale(1.02);
+        }
+
+        /* Animation hiện khung chi tiết tác phẩm */
+        .animate-detail-appear {
+            animation: detailFadeScale 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes detailFadeScale {
+            0% { opacity: 0; transform: translateY(12px) scale(0.98); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* INTRO STAGES */
+        #intro-logo-stage {
+            animation: fastLogoIntro 1.5s ease-in-out forwards;
+        }
+
+        #intro-card-stage {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fastCardFadeIn 0.8s ease-out 1.2s forwards;
+        }
+
+        @keyframes fastLogoIntro {
+            0% { opacity: 0; transform: scale(0.6); }
+            35% { opacity: 1; transform: scale(1.05); }
+            70% { opacity: 1; transform: scale(1); }
+            100% { opacity: 0; transform: scale(1.15); visibility: hidden; }
+        }
+
+        @keyframes fastCardFadeIn {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-bamboo-600 selection:text-white bamboo-bg-pattern">
+
+    <!-- 1. INTRO MODAL DỰ ÁN VK-01 -->
+    <div id="splash-screen" class="fixed inset-0 z-50 bg-bamboo-950 flex items-center justify-center p-6 text-white transition-opacity duration-700">
+        <!-- Stage 1 (0s - 1.5s): Logo tròn tỏa sáng -->
+        <div id="intro-logo-stage" class="absolute flex flex-col items-center justify-center text-center">
+            <div class="relative w-32 h-32 rounded-full bg-gradient-to-tr from-bamboo-700 via-gold to-gold-light p-1 shadow-[0_0_50px_rgba(212,175,55,0.5)] flex items-center justify-center">
+                <div class="w-full h-full bg-bamboo-950 rounded-full flex flex-col items-center justify-center">
+                    <span class="font-serif font-black text-3xl text-gold tracking-wider">VK-01</span>
+                    <i class="fa-solid fa-spa text-bamboo-300 text-xs mt-1 animate-pulse"></i>
+                </div>
+            </div>
+            <p class="mt-4 font-serif text-gold-light font-bold text-sm tracking-widest uppercase">HỒN VĂN TRONG NÉT TRÚC</p>
+        </div>
+
+        <!-- Stage 2: Bảng thông tin dự án -->
+        <div id="intro-card-stage" class="relative max-w-md w-full bg-bamboo-900/90 backdrop-blur-md p-8 rounded-3xl border border-gold/40 shadow-2xl text-center space-y-6">
+            <div class="inline-flex items-center space-x-2 px-3 py-1 bg-bamboo-800 text-gold-light border border-gold/40 rounded-full text-xs font-semibold uppercase tracking-wider">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <span>Dự Án Ngữ Văn 12</span>
+            </div>
+
+            <div class="space-y-1">
+                <h1 class="font-serif text-2xl font-bold text-gold-light">DỰ ÁN HỌC TẬP VK-01</h1>
+                <p class="text-xs text-bamboo-200">Bộ Sách Kết Nối Tri Thức Với Cuộc Sống</p>
+            </div>
+
+            <div class="bg-bamboo-950/80 p-4 rounded-xl border border-bamboo-700 text-left text-xs space-y-2 text-bamboo-100">
+                <div class="flex justify-between border-b border-bamboo-800 pb-1.5">
+                    <span class="text-bamboo-300">Trường:</span>
+                    <span class="font-semibold text-gold-light">THPT Yên Lãng</span>
+                </div>
+                <div class="flex justify-between border-b border-bamboo-800 pb-1.5">
+                    <span class="text-bamboo-300">Lớp:</span>
+                    <span class="font-semibold text-gold-light">12A2</span>
+                </div>
+                <div class="flex justify-between border-b border-bamboo-800 pb-1.5">
+                    <span class="text-bamboo-300">Tác giả:</span>
+                    <span class="font-bold text-gold">Nguyễn Thiện Huy</span>
+                </div>
+                <div class="flex justify-between border-b border-bamboo-800 pb-1.5">
+                    <span class="text-bamboo-300">Giáo viên hướng dẫn:</span>
+                    <span class="font-semibold text-gold-light">Cô Võ Thị Mỹ Ngà</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-bamboo-300">Năm học:</span>
+                    <span class="font-semibold text-gold-light">2026 - 2027</span>
+                </div>
+            </div>
+
+            <button onclick="enterApplication()" class="w-full py-3.5 bg-gradient-to-r from-bamboo-600 via-gold to-bamboo-600 hover:from-bamboo-500 hover:to-bamboo-500 text-white font-bold text-sm tracking-wider uppercase rounded-xl shadow-lg transition-all transform hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center space-x-2 cursor-pointer border border-gold/40">
+                <i class="fa-solid fa-tree text-bamboo-200"></i>
+                <span>VÀO KHÁM PHÁ NGAY</span>
+                <i class="fa-solid fa-arrow-right"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- MAIN APP CONTAINER -->
+    <div id="main-app" class="flex-grow flex flex-col opacity-0 transition-opacity duration-700">
+        
+        <!-- HEADER & NAVIGATION -->
+        <header class="sticky top-0 z-40 bg-bamboo-900/95 backdrop-blur-md border-b border-bamboo-700 text-white shadow-lg">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+                
+                <!-- Logo VK-01 Tre Nứa -->
+                <div class="flex items-center space-x-3 whitespace-nowrap">
+                    <div class="w-9 h-9 rounded-full bg-gradient-to-br from-gold via-bamboo-500 to-bamboo-800 text-white font-serif font-extrabold flex items-center justify-center text-xs shadow-md border border-gold flex-shrink-0">
+                        VK-01
+                    </div>
+                    <div class="flex items-center space-x-2 whitespace-nowrap">
+                        <span class="font-serif font-bold text-gold-light text-base md:text-lg tracking-wide">Văn Học 12</span>
+                        <i class="fa-solid fa-spa text-bamboo-300 text-xs"></i>
+                        <span class="text-xs text-bamboo-200 hidden sm:inline-block font-sans">| KNTT - Tre Trúc & Văn Học</span>
+                    </div>
+                </div>
+
+                <!-- Desktop Nav Tabs -->
+                <nav class="hidden md:flex items-center space-x-1">
+                    <button onclick="switchTab('home')" id="nav-home" class="px-3.5 py-2 rounded-lg text-xs font-semibold text-gold transition hover:bg-bamboo-800 cursor-pointer">Trang Chủ</button>
+                    <button onclick="switchTab('library')" id="nav-library" class="px-3.5 py-2 rounded-lg text-xs font-semibold text-bamboo-200 transition hover:bg-bamboo-800 cursor-pointer">Thư Viện Tác Phẩm</button>
+                    <button onclick="switchTab('practice')" id="nav-practice" class="px-3.5 py-2 rounded-lg text-xs font-semibold text-bamboo-200 transition hover:bg-bamboo-800 cursor-pointer">Ôn Luyện & Đề Thi</button>
+                    <button onclick="switchTab('forum')" id="nav-forum" class="px-3.5 py-2 rounded-lg text-xs font-semibold text-bamboo-200 transition hover:bg-bamboo-800 cursor-pointer">Diễn Đàn Thảo Luận</button>
+                    <button onclick="switchTab('about')" id="nav-about" class="px-3.5 py-2 rounded-lg text-xs font-semibold text-bamboo-200 transition hover:bg-bamboo-800 cursor-pointer">Giới Thiệu</button>
+                </nav>
+
+                <!-- Mobile Menu Button -->
+                <button onclick="toggleMobileMenu()" class="md:hidden text-bamboo-200 hover:text-gold text-xl focus:outline-none">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+
+            <!-- Mobile Nav Dropdown -->
+            <div id="mobile-menu" class="hidden md:hidden bg-bamboo-800 border-b border-bamboo-700 px-4 py-3 space-y-2">
+                <button onclick="switchTab('home'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-md text-sm font-semibold text-gold">Trang Chủ</button>
+                <button onclick="switchTab('library'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-md text-sm font-semibold text-bamboo-100">Thư Viện Tác Phẩm</button>
+                <button onclick="switchTab('practice'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-md text-sm font-semibold text-bamboo-100">Ôn Luyện & Đề Thi</button>
+                <button onclick="switchTab('forum'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-md text-sm font-semibold text-bamboo-100">Diễn Đàn Thảo Luận</button>
+                <button onclick="switchTab('about'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-md text-sm font-semibold text-bamboo-100">Giới Thiệu</button>
+            </div>
+        </header>
+
+        <!-- MAIN CONTENT AREA -->
+        <main class="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow">
+
+            <!-- TAB 1: TRANG CHỦ -->
+            <section id="tab-home" class="tab-panel active space-y-8">
+                <!-- Banner Hồn Văn Trong Nét Trúc -->
+                <div class="relative rounded-3xl bg-gradient-to-r from-bamboo-900 via-bamboo-800 to-bamboo-950 text-white p-8 md:p-12 shadow-2xl border border-bamboo-600 overflow-hidden">
+                    <div class="absolute right-0 bottom-0 opacity-10 pointer-events-none transform translate-x-12 translate-y-12">
+                        <i class="fa-solid fa-tree text-[280px] text-bamboo-200"></i>
+                    </div>
+                    <div class="relative z-10 max-w-2xl space-y-4">
+                        <span class="inline-flex items-center space-x-1 px-3 py-1 bg-bamboo-700/80 text-gold-light border border-gold/40 rounded-full text-xs font-semibold tracking-wider uppercase">
+                            <i class="fa-solid fa-spa mr-1 text-bamboo-300"></i>THPT Yên Lãng • Lớp 12A2
+                        </span>
+                        <h1 class="font-serif text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight text-white">
+                            Hồn Văn Trong <span class="text-gold-light italic">Nét Trúc Việt</span>
+                        </h1>
+                        <p class="text-bamboo-100 text-sm leading-relaxed">
+                            Hệ thống tổng hợp lý thuyết chuyên sâu 6 tác phẩm trọng tâm Kết Nối Tri Thức, chia nhỏ ý kiến phân tích chi tiết với giao diện thanh tao, ngân hàng trắc nghiệm chuẩn cấu trúc thi THPT Quốc gia.
+                        </p>
+                        <div class="pt-2 flex flex-wrap gap-4">
+                            <button onclick="switchTab('library')" class="px-6 py-3 bg-gradient-to-r from-gold to-gold-hover text-bamboo-950 font-bold rounded-xl text-xs transition shadow-md flex items-center space-x-2 cursor-pointer transform hover:-translate-y-0.5">
+                                <i class="fa-solid fa-book-open"></i><span>Khám Phá Thư Viện Tác Phẩm</span>
+                            </button>
+                            <button onclick="startRandomExam()" class="px-6 py-3 bg-bamboo-800/90 hover:bg-bamboo-700 text-gold-light border border-gold/40 font-bold rounded-xl text-xs transition flex items-center space-x-2 cursor-pointer">
+                                <i class="fa-solid fa-clock"></i><span>Thi Thử Tổng Hợp (30 Câu)</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Info Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div class="bg-bamboo-50/90 p-5 rounded-2xl border border-bamboo-200 flex items-center space-x-4 shadow-sm">
+                        <div class="w-12 h-12 rounded-xl bg-bamboo-700 text-gold-light flex items-center justify-center text-xl shadow"><i class="fa-solid fa-school"></i></div>
+                        <div>
+                            <p class="text-[11px] text-bamboo-600 font-medium">Trường học</p>
+                            <h3 class="font-bold text-bamboo-900 text-sm">THPT Yên Lãng</h3>
+                        </div>
+                    </div>
+                    <div class="bg-bamboo-50/90 p-5 rounded-2xl border border-bamboo-200 flex items-center space-x-4 shadow-sm">
+                        <div class="w-12 h-12 rounded-xl bg-bamboo-700 text-gold-light flex items-center justify-center text-xl shadow"><i class="fa-solid fa-user-pen"></i></div>
+                        <div>
+                            <p class="text-[11px] text-bamboo-600 font-medium">Tác giả dự án</p>
+                            <h3 class="font-bold text-bamboo-900 text-sm">Nguyễn Thiện Huy (12A2)</h3>
+                        </div>
+                    </div>
+                    <div class="bg-bamboo-50/90 p-5 rounded-2xl border border-bamboo-200 flex items-center space-x-4 shadow-sm">
+                        <div class="w-12 h-12 rounded-xl bg-bamboo-700 text-gold-light flex items-center justify-center text-xl shadow"><i class="fa-solid fa-chalkboard-user"></i></div>
+                        <div>
+                            <p class="text-[11px] text-bamboo-600 font-medium">Giáo viên hướng dẫn</p>
+                            <h3 class="font-bold text-bamboo-900 text-sm">Cô Võ Thị Mỹ Ngà</h3>
+                        </div>
+                    </div>
+                    <div class="bg-bamboo-50/90 p-5 rounded-2xl border border-bamboo-200 flex items-center space-x-4 shadow-sm">
+                        <div class="w-12 h-12 rounded-xl bg-bamboo-700 text-gold-light flex items-center justify-center text-xl shadow"><i class="fa-solid fa-calendar"></i></div>
+                        <div>
+                            <p class="text-[11px] text-bamboo-600 font-medium">Năm học</p>
+                            <h3 class="font-bold text-bamboo-900 text-sm">2026 - 2027</h3>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2. TAB THƯ VIỆN TÁC PHẨM (SPLIT LAYOUT VỚI ANIMATION NẢY & LÁ TRÚC BULLETS) -->
+            <section id="tab-library" class="tab-panel space-y-6">
+                <div>
+                    <h2 class="font-serif text-2xl font-bold text-bamboo-900 flex items-center">
+                        <i class="fa-solid fa-tree text-bamboo-600 mr-2"></i>Thư Viện Tác Phẩm Chuyên Sâu
+                    </h2>
+                    <p class="text-xs text-bamboo-700">Bấm chọn tác phẩm ở cột bên trái để trải nghiệm hiệu ứng nảy mượt và xem dàn ý chi tiết 4 phần bên phải.</p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+                    <!-- Cột bên trái: Danh sách 6 tác phẩm (Nảy mượt khi chọn) -->
+                    <div class="lg:col-span-4 space-y-3">
+                        <div id="works-list-container" class="space-y-3">
+                            <!-- Injected dynamically via JS -->
+                        </div>
+
+                        <!-- Thẻ nét đứt Tre Nứa bổ sung -->
+                        <div class="p-4 rounded-2xl border-2 border-dashed border-bamboo-300 bg-bamboo-50/50 text-center space-y-1">
+                            <i class="fa-solid fa-spa animate-bounce text-bamboo-600 text-lg"></i>
+                            <h4 class="font-serif font-bold text-xs text-bamboo-900">Nội dung tiếp theo...</h4>
+                            <p class="text-[11px] text-bamboo-600">Đang được cập nhật bổ sung cho Học kỳ II</p>
+                        </div>
+                    </div>
+
+                    <!-- Cột bên phải: Khung hiển thị phân tích 4 phần chia nhỏ ý (Animation Fade Scale) -->
+                    <div id="detail-card-panel" class="lg:col-span-8 bg-white p-6 md:p-8 rounded-3xl border border-bamboo-200 shadow-xl space-y-6 min-h-[500px]">
+                        <div class="border-b border-bamboo-200 pb-4 flex flex-wrap items-center justify-between gap-2">
+                            <div>
+                                <span id="detail-genre" class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-bamboo-100 text-bamboo-800 uppercase tracking-wider border border-bamboo-300">Thể loại</span>
+                                <h2 id="detail-title" class="font-serif text-2xl font-bold text-bamboo-950 mt-1">Tên Tác Phẩm</h2>
+                                <p id="detail-author" class="text-xs font-semibold text-bamboo-700">Tác giả</p>
+                            </div>
+                            <span id="detail-badge" class="text-xs font-bold px-3 py-1 bg-gradient-to-r from-bamboo-700 to-bamboo-900 text-gold-light rounded-xl shadow-sm">Mã: VK-01</span>
+                        </div>
+
+                        <!-- 4 Phần Phân Tích Chia Ý Nhỏ Bằng Icon Lá Trúc -->
+                        <div class="space-y-6 text-xs text-sepia-900 leading-relaxed">
+                            
+                            <!-- Phần 1 -->
+                            <div class="space-y-2 border-l-4 border-bamboo-600 pl-4 bg-bamboo-50/40 p-3 rounded-r-2xl">
+                                <h3 class="font-serif text-sm font-bold text-bamboo-900 flex items-center">
+                                    <i class="fa-solid fa-user-pen text-bamboo-600 mr-2"></i>1. Tác Giả & Phong Cách Nghệ Thuật
+                                </h3>
+                                <ul id="detail-sec-author" class="space-y-1.5 pt-1 text-bamboo-900">
+                                    <!-- List items injected JS -->
+                                </ul>
+                            </div>
+
+                            <!-- Phần 2 -->
+                            <div class="space-y-2 border-l-4 border-bamboo-600 pl-4 bg-bamboo-50/40 p-3 rounded-r-2xl">
+                                <h3 class="font-serif text-sm font-bold text-bamboo-900 flex items-center">
+                                    <i class="fa-solid fa-file-lines text-bamboo-600 mr-2"></i>2. Tóm Tắt Nội Dung Cốt Lõi
+                                </h3>
+                                <ul id="detail-sec-summary" class="space-y-1.5 pt-1 text-bamboo-900">
+                                    <!-- List items injected JS -->
+                                </ul>
+                            </div>
+
+                            <!-- Phần 3 -->
+                            <div class="space-y-2 border-l-4 border-bamboo-600 pl-4 bg-bamboo-50/40 p-3 rounded-r-2xl">
+                                <h3 class="font-serif text-sm font-bold text-bamboo-900 flex items-center">
+                                    <i class="fa-solid fa-gem text-bamboo-600 mr-2"></i>3. Giá Trị Nội Dung & Ý Nghĩa Nhân Văn
+                                </h3>
+                                <ul id="detail-sec-content" class="space-y-1.5 pt-1 text-bamboo-900">
+                                    <!-- List items injected JS -->
+                                </ul>
+                            </div>
+
+                            <!-- Phần 4 -->
+                            <div class="space-y-2 border-l-4 border-bamboo-600 pl-4 bg-bamboo-50/40 p-3 rounded-r-2xl">
+                                <h3 class="font-serif text-sm font-bold text-bamboo-900 flex items-center">
+                                    <i class="fa-solid fa-palette text-bamboo-600 mr-2"></i>4. Giá Trị Nghệ Thuật Đặc Sắc
+                                </h3>
+                                <ul id="detail-sec-art" class="space-y-1.5 pt-1 text-bamboo-900">
+                                    <!-- List items injected JS -->
+                                </ul>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 3. TAB HỆ THỐNG ÔN LUYỆN & TRẮC NGHIỆM -->
+            <section id="tab-practice" class="tab-panel space-y-6">
+                <div>
+                    <h2 class="font-serif text-2xl font-bold text-bamboo-900">Hệ Thống Ôn Luyện & Đề Thi</h2>
+                    <p class="text-xs text-bamboo-700">Rèn luyện kỹ năng trắc nghiệm chuẩn hóa cấu trúc thi THPT Quốc gia môn Ngữ Văn.</p>
+                </div>
+
+                <!-- Chế độ chọn -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-white p-6 rounded-2xl border border-bamboo-200 space-y-4 shadow-sm">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 rounded-xl bg-bamboo-100 text-bamboo-700 flex items-center justify-center text-lg"><i class="fa-solid fa-list-check"></i></div>
+                            <div>
+                                <h3 class="font-serif font-bold text-bamboo-900 text-base">Chế Độ 1: Ôn Tập Theo Tác Phẩm</h3>
+                                <p class="text-[11px] text-bamboo-600">10 câu hỏi trắc nghiệm riêng biệt cho từng bài</p>
+                            </div>
+                        </div>
+                        <select id="practice-select-work" class="w-full p-2.5 rounded-xl border border-bamboo-300 bg-bamboo-50/50 text-xs font-semibold text-bamboo-900 focus:outline-none focus:border-bamboo-600">
+                            <option value="0">1. Xuân Tóc Đỏ Cứu Quốc (Vũ Trọng Phụng)</option>
+                            <option value="1">2. Mùa Lá Rụng Trong Vườn (Ma Văn Kháng)</option>
+                            <option value="2">3. Cảm Hoài (Đặng Dung)</option>
+                            <option value="3">4. Tây Tiến (Quang Dũng)</option>
+                            <option value="4">5. Đàn Ghi Ta Của Lor-ca (Thanh Thảo)</option>
+                            <option value="5">6. Cuộc Đời Của Pi (Yann Martel)</option>
+                        </select>
+                        <button onclick="startWorkQuiz()" class="w-full py-2.5 bg-bamboo-600 hover:bg-bamboo-700 text-white font-bold text-xs rounded-xl transition cursor-pointer shadow-md">
+                            Bắt Đầu Ôn Luyện (10 Câu)
+                        </button>
+                    </div>
+
+                    <div class="bg-gradient-to-br from-bamboo-900 to-bamboo-950 text-white p-6 rounded-2xl border border-gold/40 space-y-4 shadow-xl">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 rounded-xl bg-bamboo-800 text-gold-light flex items-center justify-center text-lg"><i class="fa-solid fa-clock"></i></div>
+                            <div>
+                                <h3 class="font-serif font-bold text-gold-light text-base">Chế Độ 2: Đề Thi Thử Tổng Hợp</h3>
+                                <p class="text-[11px] text-bamboo-200">30 câu ngẫu nhiên • Thời gian: 45 phút</p>
+                            </div>
+                        </div>
+                        <p class="text-xs text-bamboo-100">Đề thi trộn xáo từ ngân hàng câu hỏi đầy đủ 6 bài học, có tính giờ tự động và chấm điểm kèm nhận xét chi tiết.</p>
+                        <button onclick="startRandomExam()" class="w-full py-2.5 bg-gradient-to-r from-gold to-gold-hover text-bamboo-950 font-bold text-xs rounded-xl transition cursor-pointer shadow-md">
+                            Bắt Đầu Thi Thử Tổng Hợp (30 Câu)
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Khung hiển thị câu hỏi -->
+                <div id="quiz-container" class="hidden bg-white p-6 md:p-8 rounded-3xl border border-bamboo-300 shadow-xl space-y-6">
+                    <div class="flex items-center justify-between border-b border-bamboo-200 pb-4">
+                        <div>
+                            <span id="quiz-mode-badge" class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-bamboo-100 text-bamboo-800 uppercase">Chế độ ôn tập</span>
+                            <h3 id="quiz-title" class="font-serif text-xl font-bold text-bamboo-900 mt-1">Tên Bài Thi</h3>
+                        </div>
+                        <div id="quiz-timer" class="hidden font-mono text-base font-bold text-bamboo-900 bg-bamboo-100 px-4 py-2 rounded-xl border border-bamboo-300">
+                            <i class="fa-solid fa-stopwatch text-bamboo-700 mr-1"></i><span id="timer-text">45:00</span>
+                        </div>
+                    </div>
+
+                    <div id="quiz-questions-list" class="space-y-6">
+                        <!-- Questions render here -->
+                    </div>
+
+                    <div class="pt-4 border-t border-bamboo-200 flex justify-end">
+                        <button onclick="submitQuiz()" class="px-8 py-3 bg-bamboo-700 hover:bg-bamboo-800 text-white font-bold text-xs rounded-xl transition cursor-pointer shadow-md">
+                            Nộp Bài & Chấm Điểm
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Khung kết quả -->
+                <div id="quiz-result" class="hidden bg-white p-8 rounded-3xl border border-bamboo-300 text-center space-y-4 shadow-xl">
+                    <div class="inline-block p-4 rounded-full bg-bamboo-100 text-bamboo-700 text-3xl"><i class="fa-solid fa-trophy text-gold-dark"></i></div>
+                    <h3 class="font-serif text-2xl font-bold text-bamboo-900">Kết Quả Bài Thi</h3>
+                    <p id="result-text" class="text-base font-bold text-bamboo-700">Bạn trả lời đúng: 0 / 0 câu</p>
+                    <p id="result-feedback" class="text-xs text-bamboo-800 italic">Nhận xét hệ thống...</p>
+                    <button onclick="closeQuizResult()" class="px-6 py-2.5 bg-bamboo-900 text-white text-xs font-bold rounded-xl hover:bg-bamboo-800 transition cursor-pointer">Hoàn Thành</button>
+                </div>
+            </section>
+
+            <!-- 4. TAB DIỄN ĐÀN THẢO LUẬN MỞ (LƯU LOCALSTORAGE) -->
+            <section id="tab-forum" class="tab-panel space-y-6">
+                <div class="flex flex-wrap items-center justify-between gap-4">
+                    <div>
+                        <h2 class="font-serif text-2xl font-bold text-bamboo-900">Diễn Đàn Thảo Luận Mở</h2>
+                        <p class="text-xs text-bamboo-700">Gửi câu hỏi, thảo luận và chia sẻ ý tưởng học tập Ngữ Văn 12 cùng các bạn học sinh.</p>
+                    </div>
+                    <button onclick="openNewTopicModal()" class="px-4 py-2.5 bg-bamboo-600 hover:bg-bamboo-700 text-white font-bold text-xs rounded-xl transition flex items-center space-x-2 cursor-pointer shadow">
+                        <i class="fa-solid fa-plus"></i><span>Tạo Chủ Đề Mới</span>
+                    </button>
+                </div>
+
+                <div class="bg-white rounded-3xl border border-bamboo-200 overflow-hidden grid grid-cols-1 md:grid-cols-12 min-h-[450px] shadow-lg">
+                    <!-- Danh sách kênh -->
+                    <div class="md:col-span-4 bg-bamboo-50/50 p-4 border-r border-bamboo-200 space-y-3">
+                        <h4 class="text-xs font-bold text-bamboo-700 uppercase tracking-wider">Danh Sách Chủ Đề</h4>
+                        <div id="forum-channels-list" class="space-y-1">
+                            <!-- Injected dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- Khung tin nhắn -->
+                    <div class="md:col-span-8 p-6 flex flex-col justify-between space-y-4">
+                        <div class="border-b border-bamboo-200 pb-3">
+                            <h3 id="current-channel-title" class="font-serif font-bold text-lg text-bamboo-950">Chọn chủ đề để thảo luận</h3>
+                            <p id="current-channel-desc" class="text-xs text-bamboo-600">Phòng thảo luận mở cho học sinh trao đổi bài học.</p>
+                        </div>
+
+                        <!-- Khung chứa tin nhắn -->
+                        <div id="forum-messages-container" class="flex-grow overflow-y-auto max-h-[300px] space-y-3 pr-2">
+                            <!-- Injected dynamically -->
+                        </div>
+
+                        <!-- Input nhắn tin -->
+                        <form onsubmit="handleSendForumMessage(event)" class="flex gap-2">
+                            <input type="text" id="forum-user-name" placeholder="Tên bạn..." class="w-1/3 p-2.5 rounded-xl border border-bamboo-300 bg-bamboo-50/30 text-xs focus:outline-none focus:border-bamboo-600" required>
+                            <input type="text" id="forum-user-msg" placeholder="Nhập ý kiến thảo luận..." class="w-2/3 p-2.5 rounded-xl border border-bamboo-300 bg-bamboo-50/30 text-xs focus:outline-none focus:border-bamboo-600" required>
+                            <button type="submit" class="px-4 py-2.5 bg-bamboo-600 hover:bg-bamboo-700 text-white font-bold text-xs rounded-xl transition cursor-pointer">
+                                <i class="fa-solid fa-paper-plane"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 5. TAB GIỚI THIỆU & BẢN QUYỀN -->
+            <section id="tab-about" class="tab-panel space-y-6">
+                <div class="max-w-3xl mx-auto bg-white p-8 rounded-3xl border border-bamboo-300 shadow-lg space-y-6">
+                    <div class="text-center space-y-2 border-b border-bamboo-200 pb-6">
+                        <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-bamboo-700 text-gold-light text-2xl font-serif font-bold mb-2 shadow">VK-01</div>
+                        <h2 class="font-serif text-2xl font-bold text-bamboo-900">Dự Án Phần Mềm Học Tập Ngữ Văn 12</h2>
+                        <p class="text-xs font-semibold text-bamboo-600">Bộ Sách Kết Nối Tri Thức Với Cuộc Sống</p>
+                    </div>
+
+                    <div class="space-y-4 text-xs text-bamboo-900 leading-relaxed">
+                        <h3 class="font-serif font-bold text-sm text-bamboo-950">Mục Tiêu Sản Phẩm:</h3>
+                        <p>Ứng dụng **Văn Học 12 (VK-01)** được phát triển nhằm hỗ trợ học sinh hệ thống hóa kiến thức các tác phẩm Ngữ Văn trọng tâm, thiết kế giao diện mang đậm hồn văn tre trúc Việt Nam và cung cấp công cụ ôn thi Tốt nghiệp THPT hiệu quả.</p>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+                            <div class="p-4 bg-bamboo-50/80 rounded-xl border border-bamboo-200 space-y-1">
+                                <span class="font-bold text-bamboo-700 block">Học Sinh Thực Hiện:</span>
+                                <p class="font-bold text-bamboo-950 text-sm">Nguyễn Thiện Huy</p>
+                                <p class="text-bamboo-600">Lớp 12A2 - Trường THPT Yên Lãng</p>
+                            </div>
+                            <div class="p-4 bg-bamboo-50/80 rounded-xl border border-bamboo-200 space-y-1">
+                                <span class="font-bold text-bamboo-700 block">Giáo Viên Hướng Dẫn:</span>
+                                <p class="font-bold text-bamboo-950 text-sm">Cô Võ Thị Mỹ Ngà</p>
+                                <p class="text-bamboo-600">Tổ Ngữ Văn - Trường THPT Yên Lãng</p>
+                            </div>
+                        </div>
+
+                        <div class="p-4 bg-bamboo-100/60 rounded-xl border border-bamboo-300 text-bamboo-900 italic">
+                            "Lời cảm ơn chân thành tới sự hướng dẫn tận tình của cô **Võ Thị Mỹ Ngà** và sự đồng hành của tập thể lớp 12A2 THPT Yên Lãng trong suốt quá trình hoàn thiện phần mềm."
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- FOOTER -->
+        <footer class="bg-bamboo-950 text-bamboo-200 border-t border-bamboo-800 py-6 text-center text-xs space-y-1">
+            <p class="font-bold text-gold-light">Dự Án Học Tập Ngữ Văn 12 - Mã VK-01</p>
+            <p>Trường THPT Yên Lãng • Lớp 12A2 • Tác giả: Nguyễn Thiện Huy • GVHD: Võ Thị Mỹ Ngà</p>
+            <p class="text-[10px] text-bamboo-400">© 2026 - 2027 Bộ sách Kết Nối Tri Thức Với Cuộc Sống.</p>
+        </footer>
+    </div>
+
+    <!-- MODAL TẠO CHỦ ĐỀ THẢO LUẬN MỚI -->
+    <div id="modal-topic" class="fixed inset-0 z-50 bg-bamboo-950/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-white max-w-md w-full p-6 rounded-3xl border border-bamboo-300 shadow-2xl space-y-4">
+            <h3 class="font-serif font-bold text-lg text-bamboo-900">Tạo Chủ Đề Thảo Luận Mới</h3>
+            <form onsubmit="handleCreateTopic(event)" class="space-y-3">
+                <div>
+                    <label class="text-xs font-bold text-bamboo-800">Tên chủ đề:</label>
+                    <input type="text" id="new-topic-title" placeholder="Ví dụ: Phân tích hình tượng Xuân Tóc Đỏ diễn thuyết" class="w-full p-2.5 rounded-xl border border-bamboo-300 bg-bamboo-50/30 text-xs mt-1 focus:outline-none focus:border-bamboo-600" required>
+                </div>
+                <div>
+                    <label class="text-xs font-bold text-bamboo-800">Mô tả ngắn:</label>
+                    <textarea id="new-topic-desc" rows="3" placeholder="Mô tả nội dung bạn muốn trao đổi..." class="w-full p-2.5 rounded-xl border border-bamboo-300 bg-bamboo-50/30 text-xs mt-1 focus:outline-none focus:border-bamboo-600" required></textarea>
+                </div>
+                <div class="flex justify-end space-x-2 pt-2">
+                    <button type="button" onclick="closeNewTopicModal()" class="px-4 py-2 bg-bamboo-100 text-bamboo-800 text-xs font-bold rounded-xl">Hủy</button>
+                    <button type="submit" class="px-5 py-2 bg-bamboo-600 text-white text-xs font-bold rounded-xl">Tạo Chủ Đề</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- DATABASE & APPLICATION LOGIC -->
+    <script>
+        /* DATABASE 6 TÁC PHẨM CHIA NHỎ Ý BẰNG LIST LÁ TRÚC */
+        const worksDatabase = [
+            {
+                id: 0,
+                title: "Xuân Tóc Đỏ Cứu Quốc",
+                author: "Vũ Trọng Phụng (Trích 'Số Đỏ')",
+                genre: "Tiểu thuyết trào phúng",
+                authorSec: [
+                    "Vũ Trọng Phụng (1912 - 1939) là nhà văn kiệt xuất của văn học hiện thực trước 1945.",
+                    "Được mệnh danh là 'Ông vua văn xôi Bắc Kỳ' với ngòi bút trào phúng sắc bén.",
+                    "Sở trường bóc trần sự giả tạo, hợm hĩnh của tầng lớp tư sản Âu hóa thời thực dân."
+                ],
+                summarySec: [
+                    "Đoạn trích thuật lại trận thi đấu quần vợt giữa hai vận động viên Việt - Xiêm.",
+                    "Xuân Tóc Đỏ được lệnh phải thua để giữ hòa khí ngoại giao giữa hai nước.",
+                    "Quần chúng phẫn nộ đòi bạo động, Xuân Tóc Đỏ leo lên khán đài diễn thuyết bịp bợm.",
+                    "Hắn biến sự nhượng bộ cá nhân thành hành động 'cứu quốc' vĩ đại, được tung hô như anh hùng."
+                ],
+                contentSec: [
+                    "Phơi bày bản chất lố lăng, xảo ngôn và bịp bợm của Xuân Tóc Đỏ.",
+                    "Vạch trần sự ngu muội, dễ bị thao túng của đám đông quần chúng thành thị Âu hóa.",
+                    "Đả kích sâu sắc bộ mặt giả tạo của chính quyền thực dân và giới thượng lưu thời bấy giờ."
+                ],
+                artSec: [
+                    "Mâu thuẫn trào phúng bùng nổ kịch tính và bất ngờ.",
+                    "Nghệ thuật phóng đại, ngào nặn nhân vật mang tính hề hước đỉnh cao.",
+                    "Ngôn ngữ nhân vật đậm chất khẩu ngữ, mỉa mai hóm hỉnh."
+                ]
+            },
+            {
+                id: 1,
+                title: "Mùa Lá Rụng Trong Vườn",
+                author: "Ma Văn Kháng",
+                genre: "Tiểu thuyết hiện đại",
+                authorSec: [
+                    "Ma Văn Kháng là nhà văn xuất sắc của văn học Việt Nam thời kỳ Đổi mới.",
+                    "Nhạy bén với những chuyển biến tâm lý xã hội và nhịp sống đô thị.",
+                    "Ngòi bút giàu chất trữ tình, ấm áp tình người và chiều sâu văn hóa truyền thống."
+                ],
+                summarySec: [
+                    "Bối cảnh diễn ra vào chiều 30 Tết tại ngôi nhà cổ kính của gia đình ông Bằng.",
+                    "Không khí sửa sang nhà cửa, chuẩn bị mâm cỗ Tất niên vô cùng khẩn trương và ấm áp.",
+                    "Lễ cúng gia tiên linh thiêng diễn ra với sự nghiêm cẩn của ông Bằng cùng các con dâu (chị Đông, cô Lý).",
+                    "Gợi lại nếp nhà nề nếp, tình cảm gia đình thắm thiết trước những biến động của thời đại."
+                ],
+                contentSec: [
+                    "Tôn vinh vẻ đẹp văn hóa cội nguồn và nếp nhà truyền thống của người Việt.",
+                    "Khẳng định gia đình là xóm làng tâm hồn, là nơi nương tựa vững chắc nhất của con người.",
+                    "Cảnh báo trách nhiệm giữ gìn bản sắc trước làn sóng kinh tế thị trường xâm nhập."
+                ],
+                artSec: [
+                    "Khắc họa không khí chiều 30 Tết thiêng liêng, sống động và đậm đà bản sắc.",
+                    "Miêu tả diễn biến tâm lý nhân vật tinh tế, nhạy cảm.",
+                    "Ngôn ngữ văn xuôi đồn hậu, giàu chất thơ và dư vị hoài niệm."
+                ]
+            },
+            {
+                id: 2,
+                title: "Cảm Hoài (Thuật Hoài)",
+                author: "Đặng Dung",
+                genre: "Thơ thất ngôn đường luật",
+                authorSec: [
+                    "Đặng Dung (?-1414) là danh tướng kiệt xuất thời Hậu Trần.",
+                    "Một chí sĩ giàu lòng yêu nước, bất khuất và trăn trở sâu sắc với thời thế.",
+                    "Hồn thơ trĩu nặng chí lớn chưa thành nhưng vẹn toàn khí tiết anh hùng."
+                ],
+                summarySec: [
+                    "Bài thơ là lời bộc bạch nỗi lòng u hoài của tác giả khi tuổi đời đã cao.",
+                    "Thế sự tuột khỏi tầm tay, sự nghiệp khôi phục đất nước còn dở dang.",
+                    "Hình ảnh mài gươm dưới nguyệt thể hiện ý chí chiến đấu bền bỉ không ngừng."
+                ],
+                contentSec: [
+                    "Bi kịch cay đắng của người anh hùng lỡ vận trước thời cuộc.",
+                    "Khẳng định khí tiết kiên trung, lòng yêu nước nồng nàn không bao giờ dập tắt.",
+                    "Vẻ đẹp nhân cách cao cả, phụng sự tổ quốc đến hơi thở cuối cùng."
+                ],
+                artSec: [
+                    "Thể thơ thất ngôn bát cú Đường luật chuẩn mực, cô đọng.",
+                    "Hình ảnh thơ hoành tráng (mài gươm dưới nguyệt).",
+                    "Giọng thơ trầm hùng, bi xót nhưng tràn đầy hào khí."
+                ]
+            },
+            {
+                id: 3,
+                title: "Tây Tiến",
+                author: "Quang Dũng",
+                genre: "Thơ trữ tình",
+                authorSec: [
+                    "Quang Dũng (1921 - 1988) là gương mặt tiêu biểu của thơ ca kháng chiến chống Pháp.",
+                    "Một nghệ sĩ đa tài: viết văn, làm thơ, vẽ tranh và soạn nhạc.",
+                    "Hồn thơ lãng mạn, hào hoa, tinh tế và giàu chất hội họa."
+                ],
+                summarySec: [
+                    "Nỗi nhớ da diết của tác giả về đoàn quân Tây Tiến và miền Tây Bắc.",
+                    "Chặng đường hành quân gian khổ trên nền thiên nhiên Tây Bắc hùng vĩ, dữ dội.",
+                    "Tái hiện hình ảnh đêm liên hoan đuốc hoa ấm áp tình quân dân.",
+                    "Tượng đài bất tử về người lính Tây Tiến bi hùng và sự hy sinh oanh liệt."
+                ],
+                contentSec: [
+                    "Khắc họa vóc dáng hào hoa, lãng mạn và tinh thần xả thân vì tổ quốc của người lính Hà Thành.",
+                    "Vẻ đẹp thơ mộng nhưng hoang sơ, hiểm trở của núi rừng miền Tây.",
+                    "Tình đồng chí, tình quân dân thắm thiết trong gian khổ chiến tranh."
+                ],
+                artSec: [
+                    "Bút pháp lãng mạn kết hợp cảm hứng bi hùng.",
+                    "Ngôn ngữ và hình ảnh giàu chất hội họa, âm nhạc.",
+                    "Sử dụng từ Hán Việt gợi không khí cổ kính, trang trọng."
+                ]
+            },
+            {
+                id: 4,
+                title: "Đàn Ghi Ta Của Lor-ca",
+                author: "Thanh Thảo",
+                genre: "Thơ tự do hiện đại",
+                authorSec: [
+                    "Thanh Thảo là nhà thơ luôn nỗ lực đổi mới hình thức thơ Việt Nam.",
+                    "Sở trường với tiếng thơ giàu tính suy tư, tượng trưng và siêu thực.",
+                    "Luôn hướng về những số phận nghệ sĩ bi kịch và khát vọng tự do."
+                ],
+                summarySec: [
+                    "Khắc họa hình ảnh nhà thơ tự do Tây Ban Nha Lor-ca đấu tranh chống phát xít.",
+                    "Bi kịch Lor-ca bị sát hại dã man và sự xót thương của nhân loại.",
+                    "Sức sống bất tử của tiếng đàn ghi ta và hành trình nghệ thuật tự do."
+                ],
+                contentSec: [
+                    "Thể hiện nỗi đau xót sâu sắc trước cái chết bi phẫn của thiên tài Lor-ca.",
+                    "Tôn vinh sức sống mãnh liệt, không thể tiêu diệt của nghệ thuật chân chính.",
+                    "Khát vọng tự do và cách tân nghệ thuật kiên cường."
+                ],
+                artSec: [
+                    "Thể thơ tự do, hình ảnh tượng trưng - siêu thực đa nghĩa.",
+                    "Mô phỏng chuỗi âm thanh tiếng đàn (li-la li-la).",
+                    "Cấu trúc kết hợp chất nhạc và chất thơ độc đáo."
+                ]
+            },
+            {
+                id: 5,
+                title: "Cuộc Đời Của Pi",
+                author: "Yann Martel",
+                genre: "Tiểu thuyết phiêu lưu",
+                authorSec: [
+                    "Yann Martel là nhà văn nổi tiếng người Canada.",
+                    "Tác phẩm 'Cuộc đời của Pi' đoạt giải Man Booker năm 2002.",
+                    "Phong cách sáng tác kết hợp tưởng tượng triết lý và phiêu lưu kỳ ảo."
+                ],
+                summarySec: [
+                    "Chuyến phiêu lưu sinh tồn 227 ngày trên Thái Bình Dương của cậu bé Pi.",
+                    "Sự chung sống kỳ lạ trên xuồng cứu sinh giữa Pi và con hổ Bengal Richard Parker.",
+                    "Trải qua bão tố, đói khát và nỗi cô đơn cùng cực để dành lại sự sống."
+                ],
+                contentSec: [
+                    "Ngợi ca bản năng sinh tồn và nghị lực phi thường của con người.",
+                    "Ý nghĩa thiêng liêng của niềm tin tín ngưỡng và tình yêu cuộc sống.",
+                    "Mối quan hệ vi diệu giữa con người và thiên nhiên hoang dã."
+                ],
+                artSec: [
+                    "Lối kể chuyện cuốn hút, giàu sức tưởng tượng.",
+                    "Đẩy nhân vật vào tình huống sinh tồn khắc nghiệt.",
+                    "Kết hợp nhuần nhuyễn giữa yếu tố hiện thực và triết lý tâm linh."
+                ]
+            }
+        ];
+
+        /* NGÂN HÀNG CÂU HỎI TRẮC NGHIỆM CHI TIẾT (10 CÂU / BÀI) */
+        const quizDatabase = [
+            // 0: Xuân Tóc Đỏ Cứu Quốc
+            [
+                { q: "Tác phẩm 'Xuân Tóc Đỏ cứu quốc' thuộc thể loại nào?", a: ["Tiểu thuyết trào phúng", "Kịch nói", "Truyện ngắn lãng mạn", "Thơ tự do"], c: 0 },
+                { q: "Tác giả của tác phẩm 'Số Đỏ' là ai?", a: ["Nam Cao", "Vũ Trọng Phụng", "Ngô Tất Tố", "Thạch Lam"], c: 1 },
+                { q: "Vì sao Xuân Tóc Đỏ được lệnh phải thua trong trận thi đấu quần vợt?", a: ["Vì hắn đá kém", "Để giữ hòa khí ngoại giao giữa hai nước", "Vì bị gian lận", "Vì hắn bị ốm"], c: 1 },
+                { q: "Hành động của đám đông khán giả khi Xuân Tóc Đỏ thua trận là gì?", a: ["Vui mừng", "Phẫn nộ đòi bạo động", "Bỏ về", "Thản nhiên"], c: 1 },
+                { q: "Xuân Tóc Đỏ đã làm gì để xoa dịu đám đông?", a: ["Xin lỗi", "Leo lên khán đài diễn thuyết bịp bợm", "Bỏ chạy", "Thách đấu lại"], c: 1 },
+                { q: "Bản chất hành động 'cứu quốc' của Xuân Tóc Đỏ là gì?", a: ["Yêu nước chân chính", "Sự bịp bợm, xảo ngôn và hợm hĩnh", "Sự vô tình", "Hành động anh hùng"], c: 1 },
+                { q: "Tác phẩm phản ánh thái độ gì của tác giả đối với phong cảnh xã hội Âu hóa?", a: ["Đả kích, mỉa mai sâu sắc", "Trân trọng", "Thờ ơ", "Ngợi ca"], c: 0 },
+                { q: "Khán giả thành thị trong đoạn trích bộc lộ đặc điểm gì?", a: ["Dễ bị thao túng, ngu muội", "Dũng cảm", "Thông minh", "Trí thức cao"], c: 0 },
+                { q: "Nghệ thuật trào phúng nổi bật trong tác phẩm là gì?", a: ["Sử dụng mâu thuẫn kịch tính và ngôn ngữ mỉa mai", "Trữ tình nhẹ nhàng", "Kỳ ảo cổ điển", "Sử thi"], c: 0 },
+                { q: "Nhân vật Xuân Tóc Đỏ xuất thân từ tầng lớp nào?", a: ["Hạ lưu xã hội, lưu manh", "Thượng lưu tư sản", "Tri thức", "Quan lại"], c: 0 }
+            ],
+            // 1: Mùa Lá Rụng Trong Vườn
+            [
+                { q: "Tác phẩm 'Mùa lá rụng trong vườn' là của nhà văn nào?", a: ["Ma Văn Kháng", "Nguyễn Minh Châu", "Bảo Ninh", "Tô Hoài"], c: 0 },
+                { q: "Bối cảnh thời gian nổi bật trong đoạn trích là khi nào?", a: ["Chiều 30 Tết", "Sáng mùng 1 Tết", "Đêm Rằm tháng Giêng", "Chiều thu"], c: 0 },
+                { q: "Nội dung chính của đoạn trích tập trung vào điều gì?", a: ["Không khí chuẩn bị Tết và lễ cúng gia tiên linh thiêng", "Cuộc tranh chấp đất đai", "Chuyến đi du lịch xa", "Chiến tranh căng thẳng"], c: 0 },
+                { q: "Những nhân vật dâu quán xuyến chuẩn bị cỗ Tết trong nhà ông Bằng là ai?", a: ["Chị Đông và cô Lý", "Cô Mị và chị Thắm", "Chị Mai và cô Lan", "Chị Đào và cô Hồng"], c: 0 },
+                { q: "Cảm xúc bao trùm khi ông Bằng đứng trước bàn thờ gia tiên là gì?", a: ["Trang nghiêm, thiêng liêng và xúc động", "Sợ hãi", "U buồn chán nản", "Tức giận"], c: 0 },
+                { q: "Tác phẩm đề cao giá trị bền vững nào của người Việt?", a: ["Nếp nhà truyền thống và tình cảm gia đình", "Sự giàu sang phú quý", "Lối sống phương Tây", "Danh vọng cá nhân"], c: 0 },
+                { q: "Cảnh sửa sang nhà cửa và cúng Tất niên thể hiện vẻ đẹp gì?", a: ["Văn hóa cội nguồn sâu sắc", "Sự phung phí", "Thói hủ tục", "Sự bắt buộc"], c: 0 },
+                { q: "Ngôn ngữ văn xuôi Ma Văn Kháng trong đoạn trích mang đặc điểm gì?", a: ["Đồn hậu, giàu dư vị trữ tình", "Sắc lạnh, châm biếm", "Hào hùng sử thi", "Khó hiểu"], c: 0 },
+                { q: "Thông điệp chính mà Ma Văn Kháng muốn gửi gắm là gì?", a: ["Giữ gìn bản sắc gia đình trước biến động thời đại", "Nên đi làm xa kiếm tiền", "Từ bỏ hủ tục xưa", "Xóa bỏ gia đình cổ truyền"], c: 0 },
+                { q: "Hình ảnh ngôi nhà cổ kính của ông Bằng biểu tượng cho điều gì?", a: ["Mái ấm lưu giữ nếp nhà truyền thống", "Sự lạc hậu", "Sự nghèo khó", "Sự cô đơn"], c: 0 }
+            ],
+            // 2: Cảm Hoài
+            [
+                { q: "Đặng Dung là danh tướng thuộc thời kỳ lịch sử nào?", a: ["Nhà Hậu Trần", "Nhà Lý", "Nhà Tây Sơn", "Nhà Nguyễn"], c: 0 },
+                { q: "Bài thơ 'Cảm Hoài' viết theo thể thơ nào?", a: ["Thất ngôn bát cú Đường luật", "Lục bát", "Song thất lục bát", "Tự do"], c: 0 },
+                { q: "Hình ảnh 'mài gươm dưới nguyệt' thể hiện ý chí gì?", a: ["Quyết tâm sắt đá phụng sự đất nước", "Thói quen rèn vũ khí", "Nghệ thuật múa kiếm", "Sự tức giận"], c: 0 },
+                { q: "Bi kịch của nhân vật trữ tình trong bài thơ là gì?", a: ["Chí lớn chưa thành nhưng tuổi đã già", "Bị phản bội", "Mất tài sản", "Không có học trò"], c: 0 },
+                { q: "Tâm trạng chủ đạo của bài thơ là gì?", a: ["U hoài, trĩu nặng xót xa nhưng trào dâng hào khí", "Vui tươi lạc quan", "Sợ hãi", "Thản nhiên"], c: 0 },
+                { q: "Vẻ đẹp của người anh hùng Đặng Dung hiện lên ra sao?", a: ["Bi hùng, kiên trung", "Yếu đuối", "Ủy mị", "Lãng mạn mơ mộng"], c: 0 },
+                { q: "Cụm từ 'thời thế' trong bài thơ ám chỉ điều gì?", a: ["Sự biến đổi nguy nan của đất nước", "Thời tiết", "Thời gian vụ mùa", "Lễ hội"], c: 0 },
+                { q: "Giọng điệu bài thơ mang âm hưởng gì?", a: ["Trầm hùng, bi xót", "Mỉa mai", "Hân hoan", "Êm đềm"], c: 0 },
+                { q: "Ngôn ngữ bài thơ có đặc điểm gì?", a: ["Cô đọng, hàm súc", "Dài dòng", "Thô ráp", "Nôm na"], c: 0 },
+                { q: "Đóng góp lớn nhất của bài thơ là gì?", a: ["Tấm gương khí tiết anh hùng Việt Nam", "Miêu tả cảnh thiên nhiên", "Bài ca chiến thắng", "Sách lược đánh giặc"], c: 0 }
+            ],
+            // 3: Tây Tiến
+            [
+                { q: "Tác giả bài thơ 'Tây Tiến' là ai?", a: ["Quang Dũng", "Tố Hữu", "Chính Hữu", "Xuân Diệu"], c: 0 },
+                { q: "Đoàn quân Tây Tiến phần lớn xuất thân từ đâu?", a: ["Học sinh, sinh viên tri thức Hà Thành", "Nông dân nghèo", "Công nhân", "Thương gia"], c: 0 },
+                { q: "Bút pháp nghệ thuật chủ đạo của bài thơ là gì?", a: ["Lãng mạn kết hợp cảm hứng bi hùng", "Tượng trưng siêu thực", "Trào phúng", "Hiện thực châm biếm"], c: 0 },
+                { q: "Hình ảnh 'đoàn quân không mọc tóc' phản ánh thực tế gì?", a: ["Sự khắc nghiệt của bệnh sốt xrét rừng", "Thời trang quân đội", "Tục lệ", "Sự tự nguyện"], c: 0 },
+                { q: "Đêm liên hoan đuốc hoa gợi lên tình cảm gì?", a: ["Thắm thiết tình quân dân", "Căng thẳng", "Sợ hãi", "Lạnh lẽo"], c: 0 },
+                { q: "Vẻ đẹp tâm hồn người lính Tây Tiến hiện lên thế nào?", a: ["H hào hoa, lãng mạn và dũng cảm", "Ủy mị, sợ chết", "Lạnh lùng", "Tối tăm"], c: 0 },
+                { q: "Thiên nhiên Tây Bắc được miêu tả ra sao?", a: ["Hùng vĩ, hiểm trở nhưng mộng mơ", "Bằng phẳng, bình yên", "Hoang tàn", "Đơn điệu"], c: 0 },
+                { q: "Hình ảnh 'Áo anh vệ quốc phơi màu sương' gợi cảm xúc gì?", a: ["Trang trọng, bi hùng trước sự hy sinh", "Sự tẻ nhạt", "Sự thiếu thốn nghèo khổ", "Thời trang"], c: 0 },
+                { q: "Cụm từ 'Tây Tiến' là tên gọi của cái gì?", a: ["Một đơn vị quân đội", "Tên dãy núi", "Tên dòng sông", "Tên bản làng"], c: 0 },
+                { q: "Bài thơ được sáng tác tại địa danh nào?", a: ["Phù Lưu Chanh", "Hà Nội", "Điện Biên", "Sơn La"], c: 0 }
+            ],
+            // 4: Đàn Ghi Ta Của Lor-ca
+            [
+                { q: "Bài thơ 'Đàn ghi ta của Lor-ca' sáng tác theo thể thơ gì?", a: ["Thơ tự do", "Lục bát", "Thất ngôn", "Song thất"], c: 0 },
+                { q: "Lor-ca là nhà thơ thiên tài của quốc gia nào?", a: ["Tây Ban Nha", "Pháp", "Ý", "Mỹ"], c: 0 },
+                { q: "Biểu tượng 'tiếng đàn' trong bài thơ mang ý nghĩa gì?", a: ["Nghệ thuật chân chính bất tử", "Nhạc cụ thuần túy", "Sự thất bại", "Trò chơi"], c: 0 },
+                { q: "Nhà thơ Thanh Thảo có phong cách nghệ thuật thế nào?", a: ["Đổi mới, tượng trưng - siêu thực", "Cổ điển", "Hiện thực ngụ ngôn", "Nôm na"], c: 0 },
+                { q: "Chuỗi âm thanh 'li-la li-la' ngân vang gợi điều gì?", a: ["Sức sống bất tử của tiếng đàn Lor-ca", "Tiếng súng", "Tiếng khóc", "Tiếng bước chân"], c: 0 },
+                { q: "Cái chết của Lor-ca do thế lực nào gây ra?", a: ["Phát xít Gian-cô", "Tài xế", "Thiên tai", "Kẻ trộm"], c: 0 },
+                { q: "Hình ảnh 'áo giáp' tượng trưng cho điều gì?", a: ["Sự bạo tàn của thế lực tàn bạo", "Vẻ đẹp", "Sự bảo vệ", "Tình yêu"], c: 0 },
+                { q: "Tác phẩm gửi gắm thông điệp gì về nghệ thuật?", a: ["Nghệ thuật chân chính vượt qua cái chết", "Nên học đàn", "Thơ ca không quan trọng", "Chiến tranh tốt"], c: 0 },
+                { q: "Thái độ của tác giả Thanh Thảo đối với Lor-ca là gì?", a: ["Xót thương, ngưỡng mộ sâu sắc", "Thờ ơ", "Mỉa mai", "Phê bình"], c: 0 },
+                { q: "Màu sắc xuất hiện ẩn dụ trong bài thơ là màu gì?", a: ["Đỏ, xanh, bọc bạc", "Vàng, đen", "Trắng, xám", "Tím"], c: 0 }
+            ],
+            // 5: Cuộc Đời Của Pi
+            [
+                { q: "Tác giả tiểu thuyết 'Cuộc đời của Pi' là ai?", a: ["Yann Martel", "Hemingway", "Jack London", "J.K. Rowling"], c: 0 },
+                { q: "Con vật sinh tồn cùng Pi trên xuồng cứu sinh là gì?", a: ["Con hổ Bengal Richard Parker", "Sư tử", "Báo đốm", "Gấu bắc cực"], c: 0 },
+                { q: "Pi đã sinh tồn lênh đênh trên biển bao nhiêu ngày?", a: ["227 ngày", "100 ngày", "365 ngày", "50 ngày"], c: 0 },
+                { q: "Sức mạnh lớn nhất giúp Pi vượt qua hoàn cảnh khắc nghiệt là gì?", a: ["Nghị lực sống và niềm tin tín ngưỡng", "Vũ khí", "Sự giúp đỡ ngay lập tức", "Sự may mắn"], c: 0 },
+                { q: "Tác phẩm nhận giải thưởng văn học danh giá nào?", a: ["Man Booker", "Nobel", "Pulitzer", "Goncourt"], c: 0 },
+                { q: "Quốc tịch gốc của nhân vật Pi là ở đâu?", a: ["Ấn Độ", "Canada", "Mỹ", "Anh"], c: 0 },
+                { q: "Sự cố nào bắt đầu cho hành trình phiêu lưu của Pi?", a: ["Chìm tàu chở thú", "Hỏa hoạn", "Bão tuyết", "Chiến tranh"], c: 0 },
+                { q: "Mối quan hệ giữa Pi và con hổ Richard Parker là gì?", a: ["Đối thủ sinh tồn và bạn đồng hành kỳ lạ", "Kẻ thù diệt vong", "Chủ và tớ", "Không quan tâm"], c: 0 },
+                { q: "Tác phẩm gửi gắm triết lý gì về con người?", a: ["Con người có tiềm năng sinh tồn vĩ đại khi có niềm tin", "Con người yếu đuối", "Thiên nhiên luôn tàn phá", "Nên sống cô đơn"], c: 0 },
+                { q: "Bài học lớn nhất từ tác phẩm là gì?", a: ["Không bao giờ từ bỏ hy vọng dù trong tuyệt vọng", "Tránh xa biển", "Không nuôi thú", "Nên đi du lịch"], c: 0 }
+            ]
+        ];
+
+        /* DIỄN ĐÀN THẢO LUẬN MỞ (LOCALSTORAGE) */
+        let forumTopics = [];
+        let activeTopicId = null;
+
+        let activeExamQuestions = [];
+        let examTimerInterval = null;
+
+        // ENTER APPLICATION
+        function enterApplication() {
+            const splash = document.getElementById('splash-screen');
+            const mainApp = document.getElementById('main-app');
+            
+            splash.style.opacity = '0';
+            setTimeout(() => {
+                splash.style.display = 'none';
+                mainApp.style.opacity = '1';
+                initApplication();
+            }, 700);
+        }
+
+        // INIT APPLICATION
+        function initApplication() {
+            renderWorksLeftList();
+            selectWorkDetail(0);
+            initForumData();
+        }
+
+        // TAB SWITCHING
+        function switchTab(tabId) {
+            const tabs = ['home', 'library', 'practice', 'forum', 'about'];
+            tabs.forEach(t => {
+                const panel = document.getElementById(`tab-${t}`);
+                const btn = document.getElementById(`nav-${t}`);
+                if (panel) panel.classList.remove('active');
+                if (btn) {
+                    btn.classList.remove('text-gold', 'bg-bamboo-800');
+                    btn.classList.add('text-bamboo-200');
+                }
+            });
+
+            const activePanel = document.getElementById(`tab-${tabId}`);
+            const activeBtn = document.getElementById(`nav-${tabId}`);
+            if (activePanel) activePanel.classList.add('active');
+            if (activeBtn) {
+                activeBtn.classList.add('text-gold', 'bg-bamboo-800');
+                activeBtn.classList.remove('text-bamboo-200');
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            if (menu) menu.classList.toggle('hidden');
+        }
+
+        /* RENDER THƯ VIỆN SPLIT LAYOUT VỚI NẢY MƯỢT */
+        function renderWorksLeftList() {
+            const container = document.getElementById('works-list-container');
+            if (!container) return;
+            container.innerHTML = '';
+
+            worksDatabase.forEach((w) => {
+                const card = `
+                    <div id="work-item-${w.id}" onclick="selectWorkDetail(${w.id})" class="work-card-item p-4 rounded-2xl bg-white border border-bamboo-200 cursor-pointer space-y-1 hover:border-bamboo-600 shadow-sm">
+                        <span class="px-2 py-0.5 rounded-full text-[9px] font-bold bg-bamboo-100 text-bamboo-800 uppercase tracking-wider">${w.genre}</span>
+                        <h4 class="font-serif font-bold text-sm text-bamboo-950">${w.title}</h4>
+                        <p class="text-[11px] font-semibold text-bamboo-700"><i class="fa-solid fa-pen-nib text-bamboo-600 mr-1"></i>${w.author}</p>
+                    </div>
+                `;
+                container.innerHTML += card;
+            });
+        }
+
+        /* SELECT WORK DETAIL & ANIMATION & LEAF BULLETS */
+        function selectWorkDetail(workId) {
+            worksDatabase.forEach(w => {
+                const item = document.getElementById(`work-item-${w.id}`);
+                if (item) item.classList.remove('active');
+            });
+
+            const selectedItem = document.getElementById(`work-item-${workId}`);
+            if (selectedItem) selectedItem.classList.add('active');
+
+            const w = worksDatabase.find(item => item.id === workId) || worksDatabase[0];
+
+            // Re-trigger Animation
+            const panel = document.getElementById('detail-card-panel');
+            panel.classList.remove('animate-detail-appear');
+            void panel.offsetWidth; // trigger reflow
+            panel.classList.add('animate-detail-appear');
+
+            document.getElementById('detail-genre').innerText = w.genre;
+            document.getElementById('detail-title').innerText = w.title;
+            document.getElementById('detail-author').innerText = "Tác giả: " + w.author;
+
+            // Render List Items with Leaf Bullet Icons
+            renderBulletList('detail-sec-author', w.authorSec);
+            renderBulletList('detail-sec-summary', w.summarySec);
+            renderBulletList('detail-sec-content', w.contentSec);
+            renderBulletList('detail-sec-art', w.artSec);
+        }
+
+        function renderBulletList(elementId, itemsArray) {
+            const el = document.getElementById(elementId);
+            if (!el) return;
+            el.innerHTML = '';
+
+            itemsArray.forEach(item => {
+                const li = `
+                    <li class="flex items-start space-x-2">
+                        <i class="fa-solid fa-leaf text-bamboo-600 text-[10px] mt-1 flex-shrink-0"></i>
+                        <span>${item}</span>
+                    </li>
+                `;
+                el.innerHTML += li;
+            });
+        }
+
+        /* TRẮC NGHIỆM & ÔN LUYỆN */
+        function startWorkQuiz() {
+            const select = document.getElementById('practice-select-work');
+            const workIdx = parseInt(select.value);
+            const questions = quizDatabase[workIdx];
+
+            activeExamQuestions = questions.map(q => ({ ...q }));
+
+            document.getElementById('quiz-mode-badge').innerText = "Chế độ: Ôn tập bài học";
+            document.getElementById('quiz-title').innerText = worksDatabase[workIdx].title + " (10 Câu)";
+            document.getElementById('quiz-timer').classList.add('hidden');
+
+            renderQuizQuestions();
+        }
+
+        function startRandomExam() {
+            switchTab('practice');
+
+            let allQ = [];
+            quizDatabase.forEach((workQs, wIdx) => {
+                workQs.forEach(q => {
+                    allQ.push({ ...q, workTitle: worksDatabase[wIdx].title });
+                });
+            });
+
+            for (let i = allQ.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [allQ[i], allQ[j]] = [allQ[j], allQ[i]];
+            }
+
+            activeExamQuestions = allQ.slice(0, 30);
+
+            document.getElementById('quiz-mode-badge').innerText = "Chế độ: Thi thử ngẫu nhiên";
+            document.getElementById('quiz-title').innerText = "Đề Thi Thử Môn Ngữ Văn 12 (30 Câu)";
+            
+            const timerBox = document.getElementById('quiz-timer');
+            timerBox.classList.remove('hidden');
+            
+            startExamTimer(2700); // 45 phút
+            renderQuizQuestions();
+        }
+
+        function renderQuizQuestions() {
+            document.getElementById('quiz-result').classList.add('hidden');
+            const container = document.getElementById('quiz-questions-list');
+            container.innerHTML = '';
+
+            activeExamQuestions.forEach((q, idx) => {
+                const titleInfo = q.workTitle ? `<span class="text-[10px] font-bold text-bamboo-700 block mb-1">[${q.workTitle}]</span>` : '';
+                
+                let optsHtml = '';
+                q.a.forEach((opt, optIdx) => {
+                    optsHtml += `
+                        <label class="flex items-center space-x-2.5 p-3 rounded-xl border border-bamboo-200 bg-bamboo-50/30 hover:bg-bamboo-100/50 cursor-pointer transition text-xs text-bamboo-900">
+                            <input type="radio" name="q-${idx}" value="${optIdx}" class="text-bamboo-600 focus:ring-bamboo-500">
+                            <span>${opt}</span>
+                        </label>
+                    `;
+                });
+
+                const qCard = `
+                    <div class="p-4 rounded-2xl bg-white border border-bamboo-200 space-y-2 shadow-sm">
+                        ${titleInfo}
+                        <h4 class="font-serif font-bold text-xs text-bamboo-950">Câu ${idx + 1}: ${q.q}</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-2 pt-1">
+                            ${optsHtml}
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += qCard;
+            });
+
+            document.getElementById('quiz-container').classList.remove('hidden');
+            window.scrollTo({ top: document.getElementById('quiz-container').offsetTop - 80, behavior: 'smooth' });
+        }
+
+        function startExamTimer(seconds) {
+            if (examTimerInterval) clearInterval(examTimerInterval);
+            let timeLeft = seconds;
+            
+            examTimerInterval = setInterval(() => {
+                timeLeft--;
+                const m = Math.floor(timeLeft / 60).toString().padStart(2, '0');
+                const s = (timeLeft % 60).toString().padStart(2, '0');
+                document.getElementById('timer-text').innerText = `${m}:${s}`;
+
+                if (timeLeft <= 0) {
+                    clearInterval(examTimerInterval);
+                    submitQuiz();
+                }
+            }, 1000);
+        }
+
+        function submitQuiz() {
+            if (examTimerInterval) clearInterval(examTimerInterval);
+
+            let correct = 0;
+            const total = activeExamQuestions.length;
+
+            activeExamQuestions.forEach((q, idx) => {
+                const selected = document.querySelector(`input[name="q-${idx}"]:checked`);
+                if (selected && parseInt(selected.value) === q.c) {
+                    correct++;
+                }
+            });
+
+            document.getElementById('quiz-container').classList.add('hidden');
+            document.getElementById('result-text').innerText = `Bạn trả lời đúng: ${correct} / ${total} câu (${Math.round((correct/total)*100)}%)`;
+            
+            const feedback = document.getElementById('result-feedback');
+            if (correct / total >= 0.8) {
+                feedback.innerText = "Xuất sắc! Bạn nắm rất vững kiến thức và kỹ năng trắc nghiệm Văn 12!";
+            } else if (correct / total >= 0.5) {
+                feedback.innerText = "Kết quả khá tốt! Hãy xem kỹ lại các phần phân tích chia ý ở Thư viện nhé!";
+            } else {
+                feedback.innerText = "Bạn cần dành thêm thời gian đọc lại lý thuyết ở phần Thư viện tác phẩm!";
+            }
+
+            document.getElementById('quiz-result').classList.remove('hidden');
+        }
+
+        function closeQuizResult() {
+            document.getElementById('quiz-result').classList.add('hidden');
+        }
+
+        /* DIỄN ĐÀN THẢO LUẬN MỞ (LOCALSTORAGE) */
+        function initForumData() {
+            const saved = localStorage.getItem('vk01_bamboo_forum_v3');
+            if (saved) {
+                try {
+                    forumTopics = JSON.parse(saved);
+                } catch(e) {
+                    forumTopics = [];
+                }
+            }
+
+            if (forumTopics.length === 0) {
+                forumTopics = [
+                    {
+                        id: 'topic-1',
+                        title: 'Thảo luận Xuân Tóc Đỏ Cứu Quốc',
+                        desc: 'Nơi trao đổi phân tích màn kịch diễn thuyết trào phúng của Vũ Trọng Phụng.',
+                        messages: [
+                            { author: "Nguyễn Thiện Huy", text: "Màn diễn thuyết bịp bợm của Xuân Tóc Đỏ thể hiện đỉnh cao nghệ thuật trào phúng Vũ Trọng Phụng!", time: "08:30" }
+                        ]
+                    },
+                    {
+                        id: 'topic-2',
+                        title: 'Nếp nhà trong Mùa Lá Rụng Trong Vườn',
+                        desc: 'Cảm nhận về không khí cúng gia tiên và tình cảm gia đình chiều 30 Tết.',
+                        messages: []
+                    }
+                ];
+                saveForumData();
+            }
+
+            activeTopicId = forumTopics[0].id;
+            renderForumChannels();
+            renderForumMessages();
+        }
+
+        function saveForumData() {
+            localStorage.setItem('vk01_bamboo_forum_v3', JSON.stringify(forumTopics));
+        }
+
+        function renderForumChannels() {
+            const container = document.getElementById('forum-channels-list');
+            if (!container) return;
+            container.innerHTML = '';
+
+            forumTopics.forEach(t => {
+                const isActive = t.id === activeTopicId;
+                const activeClass = isActive ? 'bg-bamboo-600 text-white font-bold shadow' : 'text-bamboo-800 hover:bg-bamboo-100';
+                
+                const btn = `
+                    <button onclick="selectForumTopic('${t.id}')" class="w-full text-left px-3 py-2 rounded-xl text-xs transition ${activeClass} flex items-center space-x-2 cursor-pointer">
+                        <i class="fa-solid fa-tree text-[10px]"></i>
+                        <span class="truncate">${t.title}</span>
+                    </button>
+                `;
+                container.innerHTML += btn;
+            });
+        }
+
+        function selectForumTopic(topicId) {
+            activeTopicId = topicId;
+            renderForumChannels();
+            renderForumMessages();
+        }
+
+        function renderForumMessages() {
+            const topic = forumTopics.find(t => t.id === activeTopicId) || forumTopics[0];
+            if (!topic) return;
+
+            document.getElementById('current-channel-title').innerText = `# ${topic.title}`;
+            document.getElementById('current-channel-desc').innerText = topic.desc;
+
+            const container = document.getElementById('forum-messages-container');
+            container.innerHTML = '';
+
+            if (!topic.messages || topic.messages.length === 0) {
+                container.innerHTML = `<p class="text-xs text-bamboo-500 italic text-center py-10">Chưa có bình luận nào. Hãy gửi ý kiến đầu tiên của bạn!</p>`;
+                return;
+            }
+
+            topic.messages.forEach(m => {
+                const msgCard = `
+                    <div class="p-3 rounded-xl bg-bamboo-50/50 border border-bamboo-200 space-y-1">
+                        <div class="flex items-center justify-between">
+                            <span class="font-bold text-xs text-bamboo-900"><i class="fa-solid fa-user-circle text-bamboo-600 mr-1"></i>${m.author}</span>
+                            <span class="text-[9px] text-bamboo-500">${m.time}</span>
+                        </div>
+                        <p class="text-xs text-bamboo-800">${m.text}</p>
+                    </div>
+                `;
+                container.innerHTML += msgCard;
+            });
+
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function handleSendForumMessage(e) {
+            e.preventDefault();
+            const nameInput = document.getElementById('forum-user-name');
+            const msgInput = document.getElementById('forum-user-msg');
+
+            const author = nameInput.value.trim();
+            const text = msgInput.value.trim();
+
+            if (!author || !text) return;
+
+            const topic = forumTopics.find(t => t.id === activeTopicId);
+            if (topic) {
+                if (!topic.messages) topic.messages = [];
+                const now = new Date();
+                const timeStr = `${now.getHours()}:${now.getMinutes().toString().padStart(2, '0')}`;
+                
+                topic.messages.push({ author, text, time: timeStr });
+                saveForumData();
+                renderForumMessages();
+                msgInput.value = '';
+            }
+        }
+
+        function openNewTopicModal() {
+            document.getElementById('modal-topic').classList.remove('hidden');
+        }
+
+        function closeNewTopicModal() {
+            document.getElementById('modal-topic').classList.add('hidden');
+        }
+
+        function handleCreateTopic(e) {
+            e.preventDefault();
+            const title = document.getElementById('new-topic-title').value.trim();
+            const desc = document.getElementById('new-topic-desc').value.trim();
+
+            if (!title || !desc) return;
+
+            const newId = `topic-${Date.now()}`;
+            forumTopics.push({
+                id: newId,
+                title: title,
+                desc: desc,
+                messages: []
+            });
+
+            saveForumData();
+            closeNewTopicModal();
+            
+            document.getElementById('new-topic-title').value = '';
+            document.getElementById('new-topic-desc').value = '';
+
+            selectForumTopic(newId);
+        }
+    </script>
+</body>
+</html>
